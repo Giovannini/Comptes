@@ -1,0 +1,60 @@
+.demo-card-event.mdl-card {
+}
+
+.demo-card-event > .mdl-card__actions {
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.demo-card-event > .mdl-card__title,
+.demo-card-event > .mdl-card__actions > .mdl-button {
+    color: #222;
+}
+
+input {
+    margin: auto;
+}
+
+.black_overlay{
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #dddddd;
+    z-index:1001;
+    -moz-opacity: 0.8;
+    opacity:.80;
+    filter: alpha(opacity=80);
+}
+
+#addReleveForm {
+    width: 500px;
+    height: 500px;
+    left: 522px;
+    position: absolute;
+    top: 0;
+    z-index: 1002;
+    margin: 20px auto auto;
+    display: none;
+}
+
+.addReleveButton {
+    position: fixed;
+    z-index: 10;
+    right: 24px;
+    top: 24px;
+}
+
+.mdl-datefield__input {
+    border: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+    font-size: 16px;
+    width: 100px;
+    height: 32px;
+    border-radius: 2px;
+    margin: 0 auto;
+    padding: 4px 0;
+    text-align: left;
+    color: inherit;
+}

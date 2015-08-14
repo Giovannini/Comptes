@@ -1,0 +1,29 @@
+@()
+
+@main("Welcome to Comptes") {
+    <script src="@routes.Assets.at("javascripts/relevesList/index.js")"></script>
+    <div class="demo-blog mdl-layout mdl-js-layout has-drawer is-upgraded" ng-controller="ReleveListController">
+        <main class="mdl-layout__content">
+
+            @forms.addReleveForm.addReleveFormBody()
+
+            <div class="demo-blog__posts mdl-grid" ng-repeat="releve in releves">
+                <releve-card ng-attr-releve="releve"></releve-card>
+            </div>
+
+            <footer class="mdl-mini-footer">
+                <div class="mdl-mini-footer--left-section">
+                    <button class="mdl-mini-footer--social-btn social-btn social-btn__twitter"></button>
+                    <button class="mdl-mini-footer--social-btn social-btn social-btn__blogger"></button>
+                    <button class="mdl-mini-footer--social-btn social-btn social-btn__gplus"></button>
+                </div>
+                <div class="mdl-mini-footer--right-section">
+                    <button class="mdl-mini-footer--social-btn social-btn__share"><i class="material-icons">
+                        share</i></button>
+                </div>
+            </footer>
+        </main>
+        <div class="mdl-layout__obfuscator"></div>
+    </div>
+
+}
