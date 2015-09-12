@@ -1,13 +1,12 @@
 body {
     background-size: cover;
-    background: url('/assets/images/bg.jpg') fixed;
+    background: #424242;
     /* FIXME: Temp. workaround for vertical scrollbars */
     margin: 0;
 }
 
 body::before {
     background-size: cover;
-    background: url('/assets/images/bg.jpg') fixed;
     content: '';
     will-change: transform;
     z-index: 1;

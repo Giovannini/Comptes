@@ -5,10 +5,9 @@
     <div class="demo-blog mdl-layout mdl-js-layout has-drawer is-upgraded" ng-controller="ReleveListController">
         <main class="mdl-layout__content">
 
-            @forms.addReleveForm.addReleveFormBody()
-
-            <div class="demo-blog__posts mdl-grid" ng-repeat="releve in releves">
-                <releve-card ng-attr-releve="releve"></releve-card>
+            @*TODO make a filter with month, year and other*@
+            <div class="demo-blog__posts mdl-grid">
+                <releve-card ng-attr-releve="releve" ng-repeat="releve in releves"></releve-card>
             </div>
 
             <footer class="mdl-mini-footer">

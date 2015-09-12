@@ -3,13 +3,17 @@
 # ~~~~
 
 # Home page
-GET         /                    controllers.Application.index
-GET         /releves             controllers.Application.getReleves
-POST        /addReleve           controllers.Application.addReleve()
+GET         /                                  controllers.Application.index
+GET         /releves                           controllers.Application.getReleves
+POST        /addReleve                         controllers.Application.addReleve()
+
+#Statistics
+GET         /stats/balance                     controllers.StatsController.getBalanceByMonth()
+GET         /stats/plots                      controllers.StatsController.getPlots()
 
 
 #Temp
-GET         /form                controllers.Application.addReleveForm()
+GET         /form                              controllers.Application.addReleveForm()
 
 # Map static resources from the /public folder to the /assets URL path
-GET         /assets/*file        controllers.Assets.at(path="/public", file)
+GET         /assets/*file                      controllers.Assets.at(path="/public", file)

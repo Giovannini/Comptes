@@ -1,13 +1,11 @@
-<div class="mdl-card mdl-cell mdl-cell--12-col" ng-model="releve">
-    <div class="mdl-card__media meta--fill mdl-color-text--white meta"
-         ng-class="{{releve.debit ? 'debit' : 'credit'}}">
-        <h3><a href="#">{{releve.description}}</a></h3>
-        <span class="meta meta--fill">{{releve.date}}</span>
+<div class="mdl-cell--3-col releve-card">
+    <!-- TODO css with ng-class ? -->
+    <!-- TODO ng-click with parameters -->
+    <div class="releve-card-front ng-class:{'debit': releve.debit};" ng-click="$parent.flip($event)">
+        <!-- TODO make font-size decrease if text is too large -->
+        {{releve.description}}
     </div>
-    <div class="mdl-card__supporting-text meta mdl-color-text--grey-800">
-        <div class="minilogo"></div>
-        <div>
-            <h3>{{releve.amount}}</h3>
-        </div>
+    <div class="releve-card-back mdl-cell--6-col" ng-click="$parent.unflip($event)">
+        <h3>{{releve.amount}}</h3>
     </div>
 </div>

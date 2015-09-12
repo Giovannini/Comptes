@@ -10267,7 +10267,7 @@ _:-ms-input-placeholder, :root .mdl-slider.mdl-slider.is-upgraded {
     box-sizing: border-box;
     width: 300px;
     margin: 0;
-    padding: 20px 0;
+    padding: 5px 0;
 }
 
 .mdl-textfield .mdl-button {

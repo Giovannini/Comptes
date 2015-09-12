@@ -1,38 +1,63 @@
 @()
 
 <header id="popupForm">
-    <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored addReleveButton"
-    ng-click="displayForm()">
-        <i class="material-icons mdl-color-text--white">add</i>
-    </button>
+    <div class="addReleveButton" ng-click="$parent.displayForm()">+</div>
 
     <div id="fade" class="black_overlay" ng-click="hideForm()"></div>
 
     <div id="addReleveForm">
         <form id="myForm" name="addReleveForm" ng-submit="addReleve()">
-            <div class="mdl-card mdl-shadow--2dp demo-card-event">
-                <div class="mdl-card__title mdl-card--expand">
-                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label textfield-demo">
-                        <input id="date" class="mdl-datefield__input" name="date" placeholder="Date..."/>
+            <input id="date" type="text" name="date" placeholder="Date..."/>
+            <input id="amount" type="text" pattern="-?[0-9]*(\.[0-9]+)?" name="amount" placeholder="Amount..."/>
+            <input id="description" type="text" name="description" placeholder="Description"/>
+            <label for="debit">Debit</label>
+            <input id="debit" type="checkbox" class="mdl-switch__input" name="debit" checked />
+            <label class="">
+                <select id="category" name="category">
+                    @for(category <- Categories.getAll){
+                        <option value="@category">@category</option>
+                    }
+                </select>
+            </label>
+            <button id="submitter" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+                Go!
+            </button>
+            @*<div class="mdl-shadow--2dp demo-card-event">
+                <div style="{display: block}">
+                    <div class="mdl-card--expand">
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label textfield-demo">
+                            <input id="date" class="mdl-textfield__input" type="text" name="date"/>
+                            <label class="mdl-textfield__label" for="amount">Date...</label>
+                            <span class="mdl-textfield__error">Input is not a date!</span>
+                        </div>
+                    </div>
+                    <div class="mdl-card--expand">
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label textfield-demo">
+                            <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="amount" name="amount"/>
+                            <label class="mdl-textfield__label" for="amount">Amount...</label>
+                            <span class="mdl-textfield__error">Input is not a number!</span>
+                        </div>
                     </div>
                 </div>
-                <div class="mdl-card__title mdl-card--expand">
+                <div class="mdl-card--expand">
                     <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label textfield-demo">
                         <input class="mdl-textfield__input" type="text" id="description" name="description"/>
                         <label class="mdl-textfield__label" for="description">Description...</label>
                     </div>
                 </div>
-                <div class="mdl-card__title mdl-card--expand">
-                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label textfield-demo">
-                        <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="amount" name="amount"/>
-                        <label class="mdl-textfield__label" for="amount">Amount...</label>
-                        <span class="mdl-textfield__error">Input is not a number!</span>
-                    </div>
-                </div>
-                <div class="mdl-card__title mdl-card--expand">
+                <div class="mdl-card--expand">
                     <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="debit">
                         <input type="checkbox" id="debit" class="mdl-switch__input" name="debit" checked />
                         <span id="debitSpan" class="mdl-switch__label">Debit</span>
+                    </label>
+                </div>
+                <div class="mdl-card--expand">
+                    <label class="">
+                        <select name="category">
+                            @for(category <- Categories.getAll){
+                                <option value="@category">@category</option>
+                            }
+                        </select>
                     </label>
                 </div>
                 <div class="mdl-card__actions mdl-card--border">
@@ -40,7 +65,7 @@
                         Go!
                     </button>
                 </div>
-            </div>
+            </div>*@
         </form>
     </div>
 </header>

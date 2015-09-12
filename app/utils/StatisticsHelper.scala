@@ -2,6 +2,7 @@ package utils
 
 import java.io.File
 
+import models.Categories.Category
 import models.Releve
 import models.db.ReleveTableImpl
 import org.joda.time.DateTime
@@ -10,14 +11,18 @@ object StatisticsHelper {
 
   def file(month: Int, year: Int) = new File(s"comptes_$month$year")
 
-  def getMonthlyBalance(month: Int, year: Int) = {
-    ReleveTableImpl.getAll(month, year)
-      .map(_.price).sum
+  def getBalance(releves: List[Releve]): Double = {
+    releves.map(_.price).sum
   }
 
-  def getMonthlyBalanceAt(date: DateTime): Double = ReleveTableImpl.getAll(date)
-    .filter(_.date isAfter date)
-    .map(_.price).sum
+  def getMonthlyBalance(month: Int, year: Int): Double = getBalance {
+    ReleveTableImpl.getAll(month, year)
+  }
+
+  private def getMonthlyBalanceAt(date: DateTime): Double = getBalance {
+    ReleveTableImpl.getAll(date)
+      .filter(_.date isAfter date)
+  }
 
   def getMonthlyBalancePlots(month: Int, year: Int): List[Double] = {
     val lastDay = DateTime.parse(s"01/$month/$year").dayOfMonth().getMaximumValue
@@ -28,7 +33,6 @@ object StatisticsHelper {
     }
   }
 
-
   def getTop(month: Int, year: Int, number: Int)(f: Releve => Boolean) = ReleveTableImpl.getAll(month, year)
     .filter(f)
     .sortBy(_.montant)
@@ -37,5 +41,11 @@ object StatisticsHelper {
   def getTopLosses(month: Int, year: Int, number: Int) = getTop(month, year, number)(releve => releve.debit)
 
   def getTopGain(month: Int, year: Int, number: Int) = getTop(month, year, number)(releve => !releve.debit)
+
+
+  def getBalanceByCategory(category: Category, month: Int, year: Int) = getBalance {
+    ReleveTableImpl.getAll(month, year)
+      .filter(_.category == category)
+  }
 
 }
