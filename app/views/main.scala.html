@@ -1,4 +1,4 @@
-@(title: String)(content: Html)
+@(title: String, releves: String)(content: Html)
 
 <!DOCTYPE html>
 
@@ -16,8 +16,10 @@
 
         <link href="@routes.Assets.at("fonts/Roboto-Light.ttf")" rel="stylesheet">
         <link rel="stylesheet" href="@routes.Assets.at("stylesheets/material.css")">
+        <link rel="stylesheet" href="@routes.Assets.at("stylesheets/releveCard.css")">
         <link rel="stylesheet" href="@routes.Assets.at("stylesheets/main.css")">
         <link rel="stylesheet" href="@routes.Assets.at("stylesheets/styles.css")">
+        <link rel="stylesheet" href="@routes.Assets.at("stylesheets/stats.css")">
         <link rel="stylesheet" href="@routes.Assets.at("stylesheets/forms/header.css")">
 
             <!-- /datepicker dependencies -->
@@ -26,32 +28,17 @@
         <script src="@routes.Assets.at("javascripts/moment.min.js")"></script>
         <script src="@routes.Assets.at("javascripts/jquery-2.1.3.min.js")"></script>
         <script src="@routes.Assets.at("javascripts/knockout-3.2.0.js")"></script>
-        @*<script src="@routes.Assets.at("javascripts/material.datepicker.js")"></script>*@
         <script src="@routes.Assets.at("javascripts/material.min.js")"></script>
         <script src="@routes.Assets.at("javascripts/angular.min.js")"></script>
+        <script src="@routes.Assets.at("javascripts/d3.min.js")"></script>
+        <script src="@routes.Assets.at("javascripts/underscore.min.js")"></script>
     </head>
     <body>
-        @forms.addReleveForm.addReleveFormBody()
+        <script>
+            var serverData = @Html(releves);
+            Object.freeze(serverData);
+        </script>
         @content
     </body>
-    <script>
-    Array.prototype.forEach.call(document.querySelectorAll('.mdl-card__media'), function(el) {
-        var link = el.querySelector('a');
-        if(!link) {
-            return;
-        }
-        var target = link.getAttribute('href');
-        if(!target) {
-            return;
-        }
-        el.addEventListener('click', function() {
-            location.href = target;
-        });
-    });
-</script>
-    <script>
-    var options = {};
-    $('#date').datepicker(options);
-</script>
 </html>
 

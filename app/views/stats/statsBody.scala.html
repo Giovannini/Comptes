@@ -1,0 +1,13 @@
+@()
+
+<div ng-controller="StatsController">
+    <div class="totaux">
+        <span class="gain">{{gagne.toFixed(2)}}</span> -
+        <span class="depense">{{perdu.toFixed(2)}}</span> =
+        <span class="total">{{(gagne - perdu).toFixed(2)}}</span>
+    </div>
+    <div class="stats">
+        <svg class="courbe"></svg>
+        <svg class="pie"></svg>
+    </div>
+</div>

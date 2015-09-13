@@ -2,22 +2,29 @@ package controllers
 
 import models.Releve
 import org.joda.time.DateTime
-import play.api.libs.json.{JsError, Json}
+import org.joda.time.format.DateTimeFormat
+import play.api.libs.json.{Writes, JsError, Json}
 import play.api.mvc._
 
 object Application extends Controller {
 
   def index = Action {
-    Ok(views.html.index())
+    val now = DateTime.now
+    val releves = Releve.getAll(now.getMonthOfYear, now.getYear)
+    Ok(views.html.index(Json.stringify(Json.obj("releves" -> releves))))
   }
 
   def getReleves = Action {
-    Ok(Json.obj("releves" -> Releve.getAll(DateTime.now).map(releve => Json.toJson(releve))))
+    val now = DateTime.now
+    val releves = Releve.getAll(now.getMonthOfYear, now.getYear)
+    Ok(Json.obj(
+      "releves" -> releves
+    ))
   }
 
   def addReleve() = Action(parse.json) { request =>
     request.body.validate[Releve].fold(
-      error => BadRequest(JsError.toJson(error)),
+      error => BadRequest(JsError.toFlatJson(error)),
       releve => {
         if(Releve.insert(releve)) Ok("L'insertion a été réalisée avec succès.")
         else InternalServerError

@@ -3,33 +3,48 @@ package utils
 import java.io.File
 
 import models.Categories.Category
-import models.Releve
+import models.{Categories, Releve}
 import models.db.ReleveTableImpl
 import org.joda.time.DateTime
+import org.joda.time.format.{DateTimeFormatter, DateTimeFormat}
+import play.api.libs.json.{JsObject, Json}
 
 object StatisticsHelper {
 
+  val dateStringFormat: DateTimeFormatter = DateTimeFormat.forPattern("dd/MM/yyyy")
+
   def file(month: Int, year: Int) = new File(s"comptes_$month$year")
+
+  def getAll(month:Int, year:Int): List[Releve] = ReleveTableImpl.getAll(month, year)
 
   def getBalance(releves: List[Releve]): Double = {
     releves.map(_.price).sum
+  }
+
+  def getMoneyEarnedMonthly(month: Int, year: Int): Double = {
+    ReleveTableImpl.getAll(month, year).filterNot(_.debit).map(_.price).sum
+  }
+
+  def getMoneySpentMonthly(month: Int, year: Int): Double = {
+    ReleveTableImpl.getAll(month, year).filter(_.debit).map(_.price).sum
   }
 
   def getMonthlyBalance(month: Int, year: Int): Double = getBalance {
     ReleveTableImpl.getAll(month, year)
   }
 
-  private def getMonthlyBalanceAt(date: DateTime): Double = getBalance {
-    ReleveTableImpl.getAll(date)
-      .filter(_.date isAfter date)
+  private def getMonthlyBalanceAt(date: DateTime, releves: List[Releve]): Double = getBalance {
+    releves.filter(_.date isBefore date)
   }
 
-  def getMonthlyBalancePlots(month: Int, year: Int): List[Double] = {
-    val lastDay = DateTime.parse(s"01/$month/$year").dayOfMonth().getMaximumValue
+  def getMonthlyBalancePlots(month: Int, year: Int): List[JsObject] = {
+    val lastDay = dateStringFormat.parseDateTime(s"01/$month/$year").dayOfMonth().getMaximumValue
+    val releves = ReleveTableImpl.getAll(month, year)
     (1 to lastDay).toList
       .map { dayNumber =>
-      val day = DateTime.parse(s"$dayNumber/$month/$year")
-      getMonthlyBalanceAt(day)
+      val day = dateStringFormat.parseDateTime(s"$dayNumber/$month/$year")
+//      getMonthlyBalanceAt(day, releves)
+      Json.obj("x" -> dayNumber, "y" ->getMonthlyBalanceAt(day, releves))
     }
   }
 
@@ -43,9 +58,15 @@ object StatisticsHelper {
   def getTopGain(month: Int, year: Int, number: Int) = getTop(month, year, number)(releve => !releve.debit)
 
 
-  def getBalanceByCategory(category: Category, month: Int, year: Int) = getBalance {
-    ReleveTableImpl.getAll(month, year)
-      .filter(_.category == category)
+  def getBalanceByCategory(category: Category, releves: List[Releve]) = getBalance {
+    releves.filter(_.category == category)
+  }
+
+  def getCategoryPieData(month: Int, year: Int): List[JsObject] = {
+    val releves = ReleveTableImpl.getAll(month, year).filter(_.debit)
+    Categories.getAll.map { category =>
+      Json.obj("category" -> category.toString, "value" -> getBalanceByCategory(category, releves))
+    }
   }
 
 }

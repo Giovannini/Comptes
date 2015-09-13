@@ -49,9 +49,7 @@ trait ReleveTable {
   }
 
   def getAll(date: DateTime): List[Releve] = {
-    val result = getAll(date.getMonthOfYear, date.getYear)
-    println(result)
-    result
+    getAll(date.getMonthOfYear, date.getYear)
   }
 
 }

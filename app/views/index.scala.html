@@ -1,28 +1,18 @@
-@()
+@(releves: String)
 
-@main("Welcome to Comptes") {
+@main("Welcome to Comptes", releves) {
     <script src="@routes.Assets.at("javascripts/relevesList/index.js")"></script>
-    <div class="demo-blog mdl-layout mdl-js-layout has-drawer is-upgraded" ng-controller="ReleveListController">
-        <main class="mdl-layout__content">
+    <div ng-controller="ReleveListController">
+        @forms.addReleveForm.addReleveFormBody()
+        <main class="content">
 
-            @*TODO make a filter with month, year and other*@
+            @views.html.stats.statsBody()
+
             <div class="demo-blog__posts mdl-grid">
-                <releve-card ng-attr-releve="releve" ng-repeat="releve in releves"></releve-card>
+                <releve-card ng-attr-releve="releve" ng-repeat="releve in releves | orderBy:'-date'"></releve-card>
             </div>
 
-            <footer class="mdl-mini-footer">
-                <div class="mdl-mini-footer--left-section">
-                    <button class="mdl-mini-footer--social-btn social-btn social-btn__twitter"></button>
-                    <button class="mdl-mini-footer--social-btn social-btn social-btn__blogger"></button>
-                    <button class="mdl-mini-footer--social-btn social-btn social-btn__gplus"></button>
-                </div>
-                <div class="mdl-mini-footer--right-section">
-                    <button class="mdl-mini-footer--social-btn social-btn__share"><i class="material-icons">
-                        share</i></button>
-                </div>
-            </footer>
         </main>
-        <div class="mdl-layout__obfuscator"></div>
     </div>
 
 }
