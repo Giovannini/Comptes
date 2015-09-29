@@ -3,16 +3,16 @@ package models
 
 object Categories extends Enumeration {
   type Category = Value
-  val Home, BillsAndUtilities, FoodAndDrinks, Shopping, AutoAndTransport, Other = Value
+  val Home, Bills, Food, Shopping, Transport, Other = Value
 
-  def getAll = List(Home, BillsAndUtilities, FoodAndDrinks, Shopping, AutoAndTransport, Other)
+  def getAll = List(Home, Bills, Food, Shopping, Transport, Other)
 
   def retrieveFromString(string: String) = string match {
     case "Home" => Home
-    case "BillsAndUtilities" => BillsAndUtilities
-    case "FoodAndDrinks" => FoodAndDrinks
+    case "Bills" => Bills
+    case "Food" => Food
     case "Shopping" => Shopping
-    case "AutoAndTransport" => AutoAndTransport
+    case "Transport" => Transport
     case _ => Other
   }
 }
