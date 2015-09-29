@@ -22,7 +22,6 @@ body .demo-blog {
 }
 
 .demo-blog .demo-blog__posts {
-    max-width: 900px;
     padding: 0;
     display: -webkit-box;
     display: -webkit-flex;
@@ -36,7 +35,7 @@ body .demo-blog {
 }
 
 .demo-blog.mdl-layout .mdl-layout__content {
-    padding-top: 230px;
+    padding-top: 50px;
     position: relative;
     -webkit-overflow-scrolling: touch;
 }

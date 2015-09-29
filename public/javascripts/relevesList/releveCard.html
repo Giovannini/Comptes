@@ -1,11 +1,6 @@
-<div class="mdl-cell--3-col releve-card">
-    <!-- TODO css with ng-class ? -->
-    <!-- TODO ng-click with parameters -->
-    <div class="releve-card-front ng-class:{'debit': releve.debit};" ng-click="$parent.flip($event)">
-        <!-- TODO make font-size decrease if text is too large -->
-        {{releve.description}}
-    </div>
-    <div class="releve-card-back mdl-cell--6-col" ng-click="$parent.unflip($event)">
-        <h3>{{releve.amount}}</h3>
-    </div>
+<div class="mdl-cell--3-col releve-card" ng-class="{'unactive': ! $parent.isActive(releve)}"
+     ng-click="$parent.togglePieReleve(releve)">
+    <span class="date">{{releve.date | date:"dd/MM/yyyy"}}</span>
+    <span class="description">{{releve.description}}</span>
+    <span class="amount">{{releve.amount.toFixed(2)}}</span>
 </div>

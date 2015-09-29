@@ -1,0 +1,52 @@
+path {
+    stroke: steelblue;
+    stroke-width: 2;
+    fill: none;
+}
+
+.axis {
+    shape-rendering: crispEdges;
+}
+.x.axis line {
+    stroke: lightgrey;
+}
+.x.axis path {
+    stroke: lightgrey;
+    opacity: 0.5;
+    stroke-opacity: 1;
+    stroke-width: 1;
+}
+.y.axis line, .y.axis path {
+    stroke: lightgrey;
+    opacity: 0.5;
+    stroke-opacity: 1;
+    stroke-width: 1;
+}
+
+.courbe {
+    width: 500px;
+    height: 300px;
+}
+
+.pie {
+    width: 300px;
+    height: 300px;
+}
+
+.gain {
+    color: #009688;
+}
+
+.depense {
+    color: #964444;
+}
+
+.total {
+    color: white;
+}
+
+.totaux {
+    padding: 10px;
+    font-size: 20px;
+    text-align: center;
+}
