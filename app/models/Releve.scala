@@ -1,11 +1,9 @@
 package models
 
 import models.db.ReleveTable
-import org.joda.time
-import org.joda.time.{DateTimeZone, DateTime}
 import org.joda.time.format.ISODateTimeFormat
-import play.Logger
-import play.api.data.format.Formats
+import org.joda.time.{DateTime, DateTimeZone}
+import play.api.Logger
 import play.api.libs.functional.syntax._
 import play.api.libs.json._
 
@@ -21,6 +19,8 @@ case class Releve(date: DateTime,
   def toWritable: String = {
     Json.stringify(Json.toJson(this)) + "\n"
   }
+
+  def wasDuring(month: Int, year: Int) = date.getMonthOfYear == month && date.getYear == year
 
   def price: Double = {if(debit) -1 else 1} * montant
 }
@@ -39,14 +39,11 @@ object Releve extends ReleveTable {
 
   def parseJson(json: String): Option[Releve] = Try(Json.parse(json)) match {
     case Success(o) => o.validate[Releve].fold(
-        error => {
-          println(error)
-          None
-        },
+        error => None,
         success => Some(success)
       )
     case Failure(e) =>
-      println("Mauvais parsing...\n" + e)
+      Logger.error("Mauvais parsing...", e)
       None
   }
 
