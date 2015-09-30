@@ -1,3 +1,9 @@
+.releves-list {
+    padding: 8px;
+    min-width: 840px;
+    width: 850px;
+}
+
 .releve-card {
     margin: 5px;
     display: block;

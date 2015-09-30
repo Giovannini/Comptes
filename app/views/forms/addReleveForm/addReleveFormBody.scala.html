@@ -1,10 +1,9 @@
 @()
 
-<div id="addReleveForm" class="content">
+<div id="addReleveForm">
     <form id="myForm" name="addReleveForm" ng-submit="addReleve()">
         <input id="date" type="date" name="date" ng-model="form.date" placeholder="Date..."/>
-        <input id="amount" type="number" name="amount" ng-model="form.amount"
-        pattern="-?[0-9]*(\.[0-9]+)?" placeholder="Amount..."/>
+        <input id="amount" type="number" name="amount" ng-model="form.amount" placeholder="Amount..."/>
         <input id="description" type="text" name="description" ng-model="form.description"
         placeholder="Description"/>
         <label for="debit">Debit</label>

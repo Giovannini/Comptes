@@ -17,4 +17,6 @@ libraryDependencies ++= Seq( jdbc, cache , ws ,
   "com.github.pathikrit" %% "better-files" % "2.8.1"
 )
 
+offline := true
+
 unmanagedResourceDirectories in Test <+=  baseDirectory ( _ / "target/web/public/test" )

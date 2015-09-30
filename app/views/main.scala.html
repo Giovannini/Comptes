@@ -1,4 +1,4 @@
-@(title: String, releves: String)(content: Html)
+@(title: String)(content: Html)
 
 <!DOCTYPE html>
 
@@ -18,7 +18,6 @@
         <link rel="stylesheet" href="@routes.Assets.at("stylesheets/material.css")">
         <link rel="stylesheet" href="@routes.Assets.at("stylesheets/releveCard.css")">
         <link rel="stylesheet" href="@routes.Assets.at("stylesheets/main.css")">
-        <link rel="stylesheet" href="@routes.Assets.at("stylesheets/styles.css")">
         <link rel="stylesheet" href="@routes.Assets.at("stylesheets/stats.css")">
         <link rel="stylesheet" href="@routes.Assets.at("stylesheets/forms/header.css")">
 
@@ -34,11 +33,8 @@
         <script src="@routes.Assets.at("javascripts/underscore.min.js")"></script>
     </head>
     <body>
-        <script>
-            var serverData = @Html(releves);
-            Object.freeze(serverData);
-        </script>
         @content
     </body>
+    <script src="@routes.Assets.at("javascripts/relevesList/index.js")"></script>
 </html>
 

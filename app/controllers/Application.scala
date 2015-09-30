@@ -9,18 +9,15 @@ import scala.util.{Success, Try}
 
 object Application extends Controller {
 
+  //TODO: si je laisse comme ça, on verra pour le premier octobre et donc il n'y aura aucune stat...
   def index = Action {
-    val now = DateTime.now
-    val releves = Releve.getAll(now.getMonthOfYear, now.getYear)
-    Ok(views.html.index(Json.stringify(Json.obj("releves" -> releves))))
+    Ok(views.html.index())
   }
 
   def getReleves = Action {
     val now = DateTime.now
     val releves = Releve.getAll(now.getMonthOfYear, now.getYear)
-    Ok(Json.obj(
-      "releves" -> releves
-    ))
+    Ok(Json.obj("releves" -> releves))
   }
 
   def addReleve() = Action(parse.json) { request =>

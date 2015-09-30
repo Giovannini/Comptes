@@ -2,7 +2,10 @@ div[releve-card] {
     width: 100%;
 }
 
-/*##############   Flip animation   ################*/
+body {
+    background-color: #37474f;
+    font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+}
 
 .content {
     width: 900px;

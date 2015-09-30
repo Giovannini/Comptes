@@ -1,21 +1,38 @@
+.statsContent {
+    margin: 10px 5px;
+    background-color: rgba(255, 255, 255, 0.5)
+}
+
 path {
     stroke: steelblue;
     stroke-width: 2;
     fill: none;
 }
 
+.pie path {
+    stroke: white;
+}
+
+.arc text {
+    z-index: 50000;
+    font-size: 15px;
+}
+
 .axis {
     shape-rendering: crispEdges;
 }
+
 .x.axis line {
     stroke: lightgrey;
 }
+
 .x.axis path {
     stroke: lightgrey;
     opacity: 0.5;
     stroke-opacity: 1;
     stroke-width: 1;
 }
+
 .y.axis line, .y.axis path {
     stroke: lightgrey;
     opacity: 0.5;
@@ -26,6 +43,7 @@ path {
 .courbe {
     width: 500px;
     height: 300px;
+    font-size: 12px;
 }
 
 .pie {

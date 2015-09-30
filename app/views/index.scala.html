@@ -1,18 +1,18 @@
-@(releves: String)
+@()
 
-@main("Welcome to Comptes", releves) {
-    <script src="@routes.Assets.at("javascripts/relevesList/index.js")"></script>
-    <div ng-controller="ReleveListController">
+@main("Welcome to Comptes") {
+    <main class="content" ng-controller="ReleveListController">
         @forms.addReleveForm.addReleveFormBody()
-        <main class="content">
 
-            @views.html.stats.statsBody()
+        @views.html.stats.statsBody()
 
-            <div class="demo-blog__posts mdl-grid">
-                <releve-card ng-attr-releve="releve" ng-repeat="releve in releves | orderBy:'-date'"></releve-card>
-            </div>
+        <div class="releves-list">
+            <releve-card
+                ng-attr-releve="releve"
+                ng-repeat="releve in releves | orderBy:'-date'">
+            </releve-card>
+        </div>
 
-        </main>
-    </div>
+    </main>
 
 }
