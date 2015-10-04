@@ -8,7 +8,7 @@ object ReleveTableImpl extends ReleveTable
 
 trait ReleveTable {
 
-  val f = home/"Documents"/"projects"/"Comptes"/"releves"/"fake_comptes"
+  val f = home/"Documents"/"projects"/"Comptes"/"releves"/"comptes"
 
   private def comptes: File = {
     if(! f.exists) f.touch() else f

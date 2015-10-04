@@ -140,7 +140,7 @@ angular.module('CompteApp', [])
                 StatsService.refreshHistory($scope.historyReleves);
             };
 
-            $('#submitter').click(function () {
+            $scope.submitForm = function () {
                 var data = {
                     date: $scope.form.date,
                     description: $scope.form.description,
@@ -156,16 +156,7 @@ angular.module('CompteApp', [])
                         StatsService.refreshPie($scope.pieReleves);
                         StatsService.refreshHistory($scope.historyReleves);
                     })
-            });
-
-            $('#debit').click(function () {
-                var span = $('#debitSpan');
-                if (span.text() === 'Debit') {
-                    span.text('Credit')
-                } else {
-                    span.text('Debit')
-                }
-            });
+            };
         }])
     .controller('StatsController', ['$scope', '$http', 'StatsService', 'DataService',
         function ($scope, $http, StatsService, DataService) {

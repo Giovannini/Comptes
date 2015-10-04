@@ -6,7 +6,7 @@
         <input id="amount" type="number" name="amount" ng-model="form.amount" placeholder="Amount..."/>
         <input id="description" type="text" name="description" ng-model="form.description"
         placeholder="Description"/>
-        <label for="debit">Debit</label>
+        <label for="debit">{{form.debit ? "Debit" : "Crédit"}}</label>
         <input id="debit" type="checkbox" name="debit" ng-model="form.debit" class="mdl-switch__input" checked />
         <label class="">
             <select id="category" name="category" ng-model="form.category">
@@ -15,8 +15,6 @@
                 }
             </select>
         </label>
-        <button id="submitter" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
-            Go!
-        </button>
+        <button id="submitter" ng-click="submitForm()"> Go! </button>
     </form>
 </div>

@@ -1,6 +1,5 @@
 package models
 
-import models.db.ReleveTable
 import org.joda.time.format.ISODateTimeFormat
 import org.joda.time.{DateTime, DateTimeZone}
 import play.api.Logger
@@ -25,7 +24,7 @@ case class Releve(date: DateTime,
   def price: Double = {if(debit) -1 else 1} * montant
 }
 
-object Releve extends ReleveTable {
+object Releve {
 
   implicit val dateFormat = ISODateTimeFormat.dateTime().withZone(DateTimeZone.getDefault)
 
