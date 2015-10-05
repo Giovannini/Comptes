@@ -1,31 +1,36 @@
 package controllers
 
+import models.Releve
+import models.db.ReleveTableImpl
 import org.joda.time.DateTime
-import play.api.libs.json.{JsString, Json, JsNumber}
+import play.api.libs.json.Json
 import play.api.mvc.{Action, Controller}
-import utils.StatisticsHelper
 
 
 object StatsController extends Controller {
 
-  private def month = DateTime.now().getMonthOfYear
-
-  private def year = DateTime.now().getYear
-
-  def getStats(month: Int = month, year: Int = year) = Action {
-    Ok(Json.obj(
-      "stats" -> Json.obj(
-        "mois" -> JsString(s"$month/$year"),
-        "releves" -> StatisticsHelper.getAll(month, year)
-      )))
+  def index = Action {
+    Ok(views.html.stats.stats())
   }
 
-  def getBalanceByMonth(month: Int = month, year: Int = year) = Action {
-    Ok(JsNumber(StatisticsHelper.getMonthlyBalance(month, year)))
+  def getLastMonthHistory = Action {
+    Ok(Json.obj("history" -> ReleveTableImpl.getLastMonthHistory))
   }
 
-  def getPlots(month: Int = month, year: Int = year) = Action {
-    Ok(Json.obj("amounts" -> StatisticsHelper.getMonthlyBalancePlots(month, year)))
+  def getMonthlyAverageSpending = Action {
+    val monthlyAverage = ReleveTableImpl.getAll
+      .filter(_.date.isBefore(DateTime.now.withDayOfMonth(1)))
+      .groupBy(_.category)
+      .map{ case (category, releves) => (category.toString, computeMonthlyAverage(releves)) }
+    println(Json.toJson(monthlyAverage))
+    Ok(Json.obj("monthlyAverage" -> Json.toJson(monthlyAverage)))
+  }
+
+  private def computeMonthlyAverage(releves: List[Releve]): Double = {
+    val dailyBalance = releves.groupBy(r => r.date.getMonthOfYear + "/" + r.date.getYear)
+      .mapValues(Releve.balance)
+      .values
+    dailyBalance.sum / dailyBalance.size
   }
 
 }

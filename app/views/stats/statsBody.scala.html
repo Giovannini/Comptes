@@ -10,4 +10,26 @@
         <svg class="courbe"></svg>
         <svg class="pie"></svg>
     </div>
+    <div class="average">
+        <span class="bills"
+        ng-class="{'debit': monthlyAverage.Bills && monthlyAverage.Bills < 0,
+        'credit': monthlyAverage.Bills && monthlyAverage.Bills > 0}">
+            Bills: {{monthlyAverage.Bills.toFixed(2) || 0}}</span>
+        <span class="food"
+        ng-class="{'debit': monthlyAverage.Food && monthlyAverage.Food < 0,
+        'credit': monthlyAverage.Food && monthlyAverage.Food > 0}">
+            Food: {{monthlyAverage.Food.toFixed(2) || 0}}</span>
+        <span class="transport"
+        ng-class="{'debit': monthlyAverage.Transport && monthlyAverage.Transport < 0,
+        'credit': monthlyAverage.Transport && monthlyAverage.Transport > 0}">
+            Transport: {{monthlyAverage.Transport.toFixed(2) || 0}}</span>
+        <span class="home"
+        ng-class="{'debit': monthlyAverage.Home && monthlyAverage.Home < 0,
+        'credit': monthlyAverage.Home && monthlyAverage.Home > 0}">
+            Home: {{monthlyAverage.Home.toFixed(2) || 0}}</span>
+        <span class="other"
+        ng-class="{'debit': monthlyAverage.Other && monthlyAverage.Other < 0,
+        'credit': monthlyAverage.Other && monthlyAverage.Other > 0}">
+            Other: {{monthlyAverage.Other.toFixed(2) || 0}}</span>
+    </div>
 </div>

@@ -46,4 +46,6 @@ object Releve {
       None
   }
 
+  def balance(releves: List[Releve]): Double = releves.map(_.price).sum
+
 }

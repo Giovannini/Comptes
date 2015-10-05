@@ -16,8 +16,8 @@ object Application extends Controller {
   }
 
   def getReleves = Action {
-    val now = DateTime.now
-    val releves = ReleveTableImpl.getAll(now.getMonthOfYear, now.getYear)
+    val lastMonth = DateTime.now.minusMonths(1)
+    val releves = ReleveTableImpl.getAllRelevesWithCondition(_.date.isAfter(lastMonth))
     Ok(Json.obj("releves" -> releves))
   }
 

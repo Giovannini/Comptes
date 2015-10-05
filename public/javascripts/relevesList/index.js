@@ -9,29 +9,32 @@ angular.module('CompteApp', [])
             })
         }
 
+        function getHistory() {
+            return $http.get("/stats/history").then(function (result) {
+                return result.data.history;
+            })
+        }
+
+        function getMonthlyAverage() {
+            return $http.get("/stats/monthly-average").then(function (result) {
+                return result.data.monthlyAverage;
+            })
+        }
+
         return {
-            getReleves: getReleves
+            getReleves: getReleves,
+            getMonthlyAverage: getMonthlyAverage,
+            getHistory: getHistory
         }
 
     }])
     .factory('StatsService', ['$rootScope', function ($rootScope) {
 
-        //Create dataset for history
-        function createHistory(releves) {
+        function createHistoryDataset(data) {
             var lineData = [];
-            for (var i = 1; i <= 31; i++) {
-                var r = _.filter(releves, function (releve) {
-                    var jour = new Date(releve.date).getDate();
-                    return i >= jour;
-                });
-                var v = _.map(r, function (releve) {
-                    if (releve.debit) return -releve.amount;
-                    else return releve.amount
-                });
-                var value = _.reduce(v, function (a, b) {
-                    return a + b;
-                }, 0);
-                lineData.push({x: i, y: value})
+            for (var i = 0; i < data.length; ++i) {
+                var d = data[i];
+                lineData.push({x: i, y: d.montant});
             }
             return lineData;
         }
@@ -88,27 +91,26 @@ angular.module('CompteApp', [])
             $rootScope.$broadcast('refreshPieData', createPie(releves));
         }
 
-        function refreshHistory(releves) {
-            $rootScope.$broadcast('refreshHistoryData', createHistory(releves));
+        function refreshHistoryDataset(data) {
+            $rootScope.$broadcast('refreshHistoryData', createHistoryDataset(data));
         }
 
         return {
-            createHistory: createHistory,
+            createHistoryDataset: createHistoryDataset,
             createPie: createPie,
             gagne: gagne,
             perdu: perdu,
             refreshPie: refreshPie,
-            refreshHistory: refreshHistory
+            refreshHistoryDataset: refreshHistoryDataset
         }
     }])
     .controller('ReleveListController', ['$scope', '$http', 'StatsService', 'DataService',
         function ($scope, $http, StatsService, DataService) {
 
             DataService.getReleves().then(function (releves) {
-                $scope.releves = releves.slice();
-                console.log(releves);
-                $scope.historyReleves = releves.slice();
-                $scope.pieReleves = releves.slice();
+                var rs = releves.slice();
+                $scope.releves = rs;
+                $scope.pieReleves = rs;
                 $scope.form = {
                     date: undefined,
                     description: undefined,
@@ -118,26 +120,37 @@ angular.module('CompteApp', [])
                 };
             });
 
+            DataService.getHistory().then(function (data) {
+                //TODO: partition?
+                $scope.historyReleves = data;
+                console.log(data);
+            });
+
             $scope.isActive = function (releve) {
                 return typeof releve.isActive === "undefined" || releve.isActive
             };
 
             $scope.togglePieReleve = function (releve) {
+                console.log(releve.date.substr(0, 10).split("-")[2]);
+                var caca = releve.date.substr(0, 10).split("-")[2];
                 if ($scope.isActive(releve)) {
                     releve.isActive = false;
                     $scope.pieReleves = _.filter($scope.pieReleves, function (r) {
                         return r != releve
                     });
-                    $scope.historyReleves = _.filter($scope.historyReleves, function (r) {
-                        return r != releve
+                    console.log($scope.historyReleves);
+                    _.map($scope.historyReleves, function (r) {
+                        if (r.date == caca) r.montant -= releve.amount;
                     });
                 } else {
                     releve.isActive = true;
                     $scope.pieReleves.push(releve);
-                    $scope.historyReleves.push(releve);
+                    _.map($scope.historyReleves, function (r) {
+                        if (r.date == caca) r.montant += releve.montant;
+                    });
                 }
                 StatsService.refreshPie($scope.pieReleves);
-                StatsService.refreshHistory($scope.historyReleves);
+                StatsService.refreshHistoryDataset($scope.historyReleves);
             };
 
             $scope.submitForm = function () {
@@ -154,7 +167,7 @@ angular.module('CompteApp', [])
                         $scope.pieReleves.push(data);
                         $scope.historyReleves.push(data);
                         StatsService.refreshPie($scope.pieReleves);
-                        StatsService.refreshHistory($scope.historyReleves);
+                        StatsService.refreshHistoryDataset($scope.historyReleves);
                     })
             };
         }])
@@ -162,16 +175,23 @@ angular.module('CompteApp', [])
         function ($scope, $http, StatsService, DataService) {
 
             DataService.getReleves().then(function (releves) {
-                $scope.lineData = StatsService.createHistory(releves);
                 $scope.pieData = StatsService.createPie(releves);
                 $scope.gagne = StatsService.gagne(releves);
                 $scope.perdu = StatsService.perdu(releves);
 
-                refreshHistoryData($scope.lineData);
-                refreshPieData($scope.pieData);
+                refreshPieSVG($scope.pieData);
             });
 
-            function refreshHistoryData(data) {
+            DataService.getMonthlyAverage().then(function(data) {
+                $scope.monthlyAverage = data;
+            });
+
+            DataService.getHistory().then(function (data) {
+                $scope.lineData = StatsService.createHistoryDataset(data);
+                refreshHistorySVG($scope.lineData);
+            });
+
+            function refreshHistorySVG(data) {
                 d3.select(".courbe").selectAll("g").remove();
                 d3.select(".courbe").selectAll("path").remove();
 
@@ -187,8 +207,12 @@ angular.module('CompteApp', [])
                     yRange = d3.scale.linear()
                         .range([HEIGHT - MARGINS.top, MARGINS.bottom])
                         .domain([
-                            d3.min(data, function(d) { return d.y > 0 ? 0 : d.y; }),
-                            d3.max(data, function(d) { return d.y; })
+                            d3.min(data, function (d) {
+                                return d.y > 0 ? 0 : d.y;
+                            }),
+                            d3.max(data, function (d) {
+                                return d.y;
+                            })
                         ]),
                     xAxis = d3.svg.axis()
                         .scale(xRange)
@@ -223,13 +247,7 @@ angular.module('CompteApp', [])
                     .attr('d', lineFunc(data));
             }
 
-            $scope.$on('refreshHistoryData', function (event, data) {
-                $scope.lineData = data;
-                refreshHistoryData($scope.lineData);
-            });
-
-            //Draw pie
-            function refreshPieData(data) {
+            function refreshPieSVG(data) {
                 d3.select(".pie").select("*").remove();
 
                 var width = 300,
@@ -292,9 +310,15 @@ angular.module('CompteApp', [])
 
             }
 
+            //TODO créer watcher sur modèles lineData at PieData, leur update mettra à jour le modèle automatiquement ainsi
+            $scope.$on('refreshHistoryData', function (event, data) {
+                $scope.lineData = data;
+                refreshHistorySVG($scope.lineData);
+            });
+
             $scope.$on('refreshPieData', function (event, data) {
                 $scope.pieData = data;
-                refreshPieData($scope.pieData)
+                refreshPieSVG($scope.pieData)
             });
 
         }])

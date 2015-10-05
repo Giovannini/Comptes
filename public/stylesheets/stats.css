@@ -1,6 +1,8 @@
 .statsContent {
     margin: 10px 5px;
-    background-color: rgba(255, 255, 255, 0.5)
+    background-color: white;
+    border-radius: 2px;
+    box-shadow: 0 2px 0 #222222;
 }
 
 path {
@@ -14,7 +16,6 @@ path {
 }
 
 .arc text {
-    z-index: 50000;
     font-size: 15px;
 }
 
@@ -60,11 +61,24 @@ path {
 }
 
 .total {
-    color: white;
+    color: #222222;
 }
 
 .totaux {
     padding: 10px;
     font-size: 20px;
     text-align: center;
+}
+
+.average span {
+    margin: 0 10px;
+    font-size: 15px;
+}
+
+.average span.debit {
+    color: #964444;
+}
+
+.average span.credit {
+    color: #009688;
 }
