@@ -23,6 +23,15 @@ class Application @Inject()(releveTable: ReleveTable) extends Controller {
     Ok(Json.obj("releves" -> releves))
   }
 
+  def getWeeklyReport = Action {
+    val weeklyReport = releveTable.getPastWeek
+      .groupBy(_.category)
+      .map { case (category, releve) =>
+        (category.toString, Releve.balance(releve))
+      }
+    Ok(Json.toJson(weeklyReport))
+  }
+
   def addReleve() = Action(parse.json) { request =>
     request.body.validate[Releve].fold(
       error => BadRequest(JsError.toJson(error)),

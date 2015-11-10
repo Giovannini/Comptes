@@ -50,6 +50,12 @@ trait ReleveTable {
     .flatMap(Releve.parseJson)
     .toList
 
+  def getPastWeek = getAllRelevesWithCondition { releve =>
+    val now = DateTime.now().minusWeeks(1)
+    releve.date.getWeekOfWeekyear == now.getWeekOfWeekyear &&
+      releve.date.getWeekyear == now.getWeekyear
+  }
+
   def getAllRelevesWithCondition(condition: Releve => Boolean): List[Releve] = getAll.filter(condition)
 
   private def partitionReleves(condition: Releve => Boolean): (List[Releve], List[Releve]) = getAll.partition(condition)
