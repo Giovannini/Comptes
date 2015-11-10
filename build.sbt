@@ -19,4 +19,6 @@ libraryDependencies ++= Seq( jdbc, cache , ws ,
 
 offline := true
 
+routesGenerator := InjectedRoutesGenerator
+
 unmanagedResourceDirectories in Test <+=  baseDirectory ( _ / "target/web/public/test" )

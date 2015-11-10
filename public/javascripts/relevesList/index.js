@@ -4,27 +4,34 @@
 angular.module('CompteApp', [])
     .factory('DataService', ['$http', function ($http) {
         function getReleves() {
-            return $http.get("/releves").then(function (result) {
+            return $http.get("/api/releves").then(function (result) {
                 return result.data.releves;
             })
         }
 
         function getHistory() {
-            return $http.get("/stats/history").then(function (result) {
+            return $http.get("/api/stats/history").then(function (result) {
                 return result.data.history;
             })
         }
 
         function getMonthlyAverage() {
-            return $http.get("/stats/monthly-average").then(function (result) {
+            return $http.get("/api/stats/monthly-average").then(function (result) {
                 return result.data.monthlyAverage;
+            })
+        }
+
+        function getWeeklyReport() {
+            return $http.get("/api/stats/weekly-report").then(function (result) {
+                return result.data;
             })
         }
 
         return {
             getReleves: getReleves,
             getMonthlyAverage: getMonthlyAverage,
-            getHistory: getHistory
+            getHistory: getHistory,
+            getWeeklyReport: getWeeklyReport
         }
 
     }])
@@ -123,7 +130,7 @@ angular.module('CompteApp', [])
             DataService.getHistory().then(function (data) {
                 //TODO: partition?
                 $scope.historyReleves = data;
-                console.log(data);
+                //console.log(data);
             });
 
             $scope.isActive = function (releve) {
@@ -161,7 +168,7 @@ angular.module('CompteApp', [])
                     debit: $scope.form.debit,
                     category: $scope.form.category
                 };
-                $http.post("/addReleve", data)
+                $http.put("/api/addReleve", data)
                     .success(function () {
                         $scope.releves.unshift(data);
                         $scope.pieReleves.push(data);

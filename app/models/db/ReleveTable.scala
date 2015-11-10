@@ -5,7 +5,7 @@ import models.Releve
 import org.joda.time.DateTime
 import play.api.libs.json.{JsObject, Json}
 
-object ReleveTableImpl extends ReleveTable {
+class ReleveTableImpl extends ReleveTable {
   val f: File = home / "Documents" / "projects" / "Comptes" / "releves" / "comptes"
 }
 
@@ -16,7 +16,7 @@ object ReleveTableMock extends ReleveTable {
 trait ReleveTable {
 
   implicit val ordering = new Ordering[DateTime] {
-    override def compare(x: DateTime, y: DateTime): Int = - x.compareTo(y)
+    override def compare(x: DateTime, y: DateTime): Int = -x.compareTo(y)
   }
 
   val f: File

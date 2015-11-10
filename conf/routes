@@ -3,18 +3,15 @@
 # ~~~~
 
 # Home page
-GET         /                             controllers.Application.index
-GET         /releves                      controllers.Application.getReleves
-POST        /addReleve                    controllers.Application.addReleve()
+GET        /                                 controllers.Application.index
+GET        /api/releves                      controllers.Application.getReleves
+PUT        /api/addReleve                    controllers.Application.addReleve()
 
 #Statistics
-GET         /stats                        controllers.StatsController.index
-GET         /stats/history                controllers.StatsController.getLastMonthHistory
-GET         /stats/monthly-average        controllers.StatsController.getMonthlyAverageSpending
+GET        /stats                            controllers.StatsController.index
+GET        /api/stats/history                controllers.StatsController.getLastMonthHistory
+GET        /api/stats/monthly-average        controllers.StatsController.getMonthlyAverageSpending
 
-
-#Temp
-GET         /form                         controllers.Application.addReleveForm()
 
 # Map static resources from the /public folder to the /assets URL path
-GET         /assets/*file                 controllers.Assets.at(path="/public", file)
+GET        /assets/*file                     controllers.Assets.at(path="/public", file)
